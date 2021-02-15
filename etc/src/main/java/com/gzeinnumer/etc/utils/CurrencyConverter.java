@@ -98,16 +98,16 @@ public class CurrencyConverter implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
         String str = editable.toString();
-        if (str.length() < prefix.length()) {
-            editText.setText(prefix);
-            editText.setSelection(prefix.length());
+        if (str.length() < CurrencyConverter.sSrefix.length()) {
+            editText.setText(CurrencyConverter.sSrefix);
+            editText.setSelection(CurrencyConverter.sSrefix.length());
             return;
         }
-        if (str.equals(prefix)) {
+        if (str.equals(CurrencyConverter.sSrefix)) {
             return;
         }
         // cleanString this the string which not contain prefix and ,
-        String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
+        String cleanString = str.replace(CurrencyConverter.sSrefix, "").replaceAll("[,]", "");
         // for prevent afterTextChanged recursive call
         if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
             return;
@@ -116,9 +116,9 @@ public class CurrencyConverter implements TextWatcher {
 
         String formattedString;
         if (cleanString.contains(".")) {
-            formattedString = formatDecimal(cleanString);
+            formattedString = formatDecimal(cleanString.replace(CurrencyConverter.sSrefix, ""));
         } else {
-            formattedString = formatInteger(cleanString);
+            formattedString = formatInteger(cleanString.replace(CurrencyConverter.sSrefix, ""));
         }
         editText.removeTextChangedListener(this); // Remove listener
         editText.setText(formattedString);
@@ -131,7 +131,7 @@ public class CurrencyConverter implements TextWatcher {
     private String formatInteger(String str) {
         BigDecimal parsed = new BigDecimal(str);
         DecimalFormat formatter =
-                new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.US));
+                new DecimalFormat(CurrencyConverter.sSrefix + "#,###", new DecimalFormatSymbols(Locale.US));
         return formatter.format(parsed);
     }
 
@@ -141,7 +141,7 @@ public class CurrencyConverter implements TextWatcher {
         }
         BigDecimal parsed = new BigDecimal(str);
         // example pattern VND #,###.00
-        DecimalFormat formatter = new DecimalFormat(prefix + "#,###." + getDecimalPattern(str),
+        DecimalFormat formatter = new DecimalFormat(CurrencyConverter.sSrefix + "#,###." + getDecimalPattern(str),
                 new DecimalFormatSymbols(Locale.US));
         formatter.setRoundingMode(RoundingMode.DOWN);
         return formatter.format(parsed);
