@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.gzeinnumer.mylibcurrencyconverter.R;
+import com.gzeinnumer.etc.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
