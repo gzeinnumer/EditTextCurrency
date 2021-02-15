@@ -206,7 +206,7 @@ Preview :
 
 **FullCode [MainActivity](https://github.com/gzeinnumer/EditTextCurrency/blob/master/app/src/main/java/com/gzeinnumer/EditTextCurrency/MainActivity.java)  & [XML](https://github.com/gzeinnumer/EditTextCurrency/blob/master/app/src/main/res/layout/activity_main.xml)**
 
-[Sample Code And App](https://github.com/gzeinnumer/EditTextCurrencyExample)
+[Sample Code And App](https://github.com/gzeinnumer/MyLibCurrencyConverterExample)
 
 ---
 # Version
