@@ -1,2 +1,3 @@
+include ':etc'
 include ':app'
 rootProject.name = "EditTextCurrency"
