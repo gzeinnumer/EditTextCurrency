@@ -162,7 +162,7 @@ app:textSize="12sp" // for TextSize on input
 ```
 Remove `Prefix` and symbol `,` and get `real value`
 ```java
-CurrencyEditTextOutlinedBox ed1 = findViewById(R.id.ed);
+CurrencyEditText ed1 = findViewById(R.id.ed);
 
 String str = StringTools.trimCommaOfString(ed1.getText(), "RP ");
 ```
@@ -191,7 +191,7 @@ Preview :
 ```
 Remove `Prefix` and symbol `,` and get `real value`
 ```java
-CurrencyEditTextOutlinedBox ed1 = findViewById(R.id.ed);
+CurrencyEditText ed1 = findViewById(R.id.ed);
 
 String str = StringTools.trimCommaOfString(ed1.getText(), "RP ");
 ```
