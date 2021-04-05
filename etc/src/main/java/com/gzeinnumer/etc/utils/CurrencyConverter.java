@@ -9,7 +9,6 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
 public class CurrencyConverter implements TextWatcher {
@@ -142,11 +141,16 @@ public class CurrencyConverter implements TextWatcher {
     }
 
     private String formatDecimal(String str) {
-        str = str.replace("..", ".");
-        if (str.equals(".")) {
+        if (str.contains(".")) {
             return prefix + ".";
         }
-        BigDecimal parsed = new BigDecimal(str);
+        BigDecimal parsed;
+        try {
+            parsed = new BigDecimal(str);
+        } catch (Exception e) {
+            str = str.replace(".", "");
+            parsed = new BigDecimal(str);
+        }
         // example pattern VND #,###.00
         DecimalFormat formatter = new DecimalFormat(CurrencyConverter.sSrefix + "#,###." + getDecimalPattern(str),
                 new DecimalFormatSymbols(Locale.US));

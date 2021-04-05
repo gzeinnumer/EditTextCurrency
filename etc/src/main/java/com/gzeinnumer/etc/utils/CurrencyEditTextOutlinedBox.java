@@ -125,7 +125,13 @@ public class CurrencyEditTextOutlinedBox extends TextInputLayout {
         }
 
         private String formatInteger(String str) {
-            BigDecimal parsed = new BigDecimal(str);
+            BigDecimal parsed;
+            try {
+                parsed = new BigDecimal(str);
+            } catch (Exception e) {
+                str = str.replace(".", "");
+                parsed = new BigDecimal(str);
+            }
             DecimalFormat formatter =
                     new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.US));
             return formatter.format(parsed);
@@ -135,7 +141,13 @@ public class CurrencyEditTextOutlinedBox extends TextInputLayout {
             if (str.equals(".")) {
                 return prefix + ".";
             }
-            BigDecimal parsed = new BigDecimal(str);
+            BigDecimal parsed;
+            try {
+                parsed = new BigDecimal(str);
+            } catch (Exception e) {
+                str = str.replace(".", "");
+                parsed = new BigDecimal(str);
+            }
             // example pattern VND #,###.00
             DecimalFormat formatter = new DecimalFormat(prefix + "#,###." + getDecimalPattern(str),
                     new DecimalFormatSymbols(Locale.US));
