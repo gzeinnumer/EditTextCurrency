@@ -9,6 +9,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
 public class CurrencyConverter implements TextWatcher {
@@ -97,34 +98,39 @@ public class CurrencyConverter implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
-        String str = editable.toString();
-        if (str.length() < CurrencyConverter.sSrefix.length()) {
-            editText.setText(CurrencyConverter.sSrefix);
-            editText.setSelection(CurrencyConverter.sSrefix.length());
-            return;
-        }
-        if (str.equals(CurrencyConverter.sSrefix)) {
-            return;
-        }
-        // cleanString this the string which not contain prefix and ,
-        String cleanString = str.replace(CurrencyConverter.sSrefix, "").replaceAll("[,]", "");
-        // for prevent afterTextChanged recursive call
-        if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
-            return;
-        }
-        previousCleanString = cleanString;
+        try {
+            String str = editable.toString();
+            if (str.length() < CurrencyConverter.sSrefix.length()) {
+                editText.setText(CurrencyConverter.sSrefix);
+                editText.setSelection(CurrencyConverter.sSrefix.length());
+                return;
+            }
+            if (str.equals(CurrencyConverter.sSrefix)) {
+                return;
+            }
+            // cleanString this the string which not contain prefix and ,
+            String cleanString = str.replace(CurrencyConverter.sSrefix, "").replaceAll("[,]", "");
+            // for prevent afterTextChanged recursive call
+            if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
+                return;
+            }
+            previousCleanString = cleanString;
 
-        String formattedString;
-        if (cleanString.contains(".")) {
-            formattedString = formatDecimal(cleanString.replace(CurrencyConverter.sSrefix, ""));
-        } else {
-            formattedString = formatInteger(cleanString.replace(CurrencyConverter.sSrefix, ""));
+            String formattedString;
+            if (cleanString.contains(".")) {
+                formattedString = formatDecimal(cleanString.replace(CurrencyConverter.sSrefix, ""));
+            } else {
+                formattedString = formatInteger(cleanString.replace(CurrencyConverter.sSrefix, ""));
+            }
+            editText.removeTextChangedListener(this); // Remove listener
+            editText.setText(formattedString);
+            handleSelection();
+            if (stringCallBack != null)
+                stringCallBack.realString(trimCommaOfString(formattedString));
+
+        } catch (NumberFormatException nfe) {
+            // do nothing?
         }
-        editText.removeTextChangedListener(this); // Remove listener
-        editText.setText(formattedString);
-        handleSelection();
-        if (stringCallBack != null)
-            stringCallBack.realString(trimCommaOfString(formattedString));
         editText.addTextChangedListener(this); // Add back the listener
     }
 
@@ -136,6 +142,7 @@ public class CurrencyConverter implements TextWatcher {
     }
 
     private String formatDecimal(String str) {
+        str = str.replace("..", ".");
         if (str.equals(".")) {
             return prefix + ".";
         }
