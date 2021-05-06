@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example1.jpg" width="400"/>
+  <img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example100.jpg" width="400"/>
 </p>
 
 <h1 align="center">
@@ -94,7 +94,7 @@ editText.addTextChangedListener(new CurrencyConverter(editText, new CurrencyConv
 
 #
 Preview For **Sample 1-4**:
-|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example1.jpg" width="400"/>|
+|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example100.jpg" width="400"/>|
 |---|
 |**Sample 1 & Sample 2**|
 
