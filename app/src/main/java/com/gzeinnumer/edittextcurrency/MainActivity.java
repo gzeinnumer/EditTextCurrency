@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
 
-        sample1();
-//        sample3();
+//        sample1();
+        sample3();
     }
 
     private void sample1() {
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String str = editText.getText().toString();
                 Log.d(TAG, "onClick: " + StringTools.trimCommaOfString(str));
-
 
                 textView.setText(StringTools.trimCommaOfString(str));
             }

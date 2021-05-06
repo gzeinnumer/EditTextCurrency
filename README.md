@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example12.jpg" width="400"/>
+  <img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example1.jpg" width="400"/>
 </p>
 
 <h1 align="center">
@@ -7,7 +7,7 @@
 </h1>
 
 <p align="center">
-    <a><img src="https://img.shields.io/badge/Version-5.1.0-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-5.2.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -66,14 +66,6 @@ dependencies {
 ```
 
 #
-### CurrencyConverter Programatically.
-
-**Note** `RP 123,456,789.111` To Remove `Prefix` `RP` and symbol `,` you can use this :
-```java
-StringTools.trimCommaOfString(str, "RP ");
-```
-
-#
 * **Sample 1** -> Simple `TextWacher`
 ```java
 editText.addTextChangedListener(new CurrencyConverter(editText));
@@ -82,8 +74,7 @@ button.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         String str = editText.getText().toString();
-        Log.d(TAG, "onClick: "+ StringTools.trimCommaOfString(str, "RP "));
-        Log.d(TAG, "onClick: "+editText.getText().toString());
+        Log.d(TAG, "onClick: " + StringTools.trimCommaOfString(str));
 
         textView.setText(StringTools.trimCommaOfString(str));
     }
@@ -96,50 +87,16 @@ button.setOnClickListener(new View.OnClickListener() {
 editText.addTextChangedListener(new CurrencyConverter(editText, new CurrencyConverter.StringCallBack() {
     @Override
     public void realString(String value) {
-        Log.d(TAG, "realString: "+value);
-        Log.d(TAG, "realString: "+editText.getText().toString());
-
-        textView.setText("(Real Value) : "+value + " && (Preview) : "+editText.getText().toString());
-    }
-}));
-```
-
-#
-* **Sample 3** -> Simple `TextWacher` With `Prefix`
-```java
-editText.addTextChangedListener(new CurrencyConverter(editText, "RP "));
-
-button.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        String str = editText.getText().toString();
-        Log.d(TAG, "onClick: "+StringTools.trimCommaOfString(str));
-        Log.d(TAG, "onClick: "+editText.getText().toString());
-
-        textView.setText(StringTools.trimCommaOfString(str));
-    }
-});
-```
-
-#
-* **Sample 4** -> Simple `TextWacher` With `Prefix` And `CallBack`
-```java
-editText.addTextChangedListener(new CurrencyConverter(editText, "RP " ,new CurrencyConverter.StringCallBack() {
-    @Override
-    public void realString(String value) {
-        Log.d(TAG, "realString: "+value);
-        Log.d(TAG, "realString: "+editText.getText().toString());
-
-        textView.setText("(Real Value) : "+value + " && (Preview) : "+editText.getText().toString());
+        textView.setText("(Real Value) : " + value + " && (Preview) : " + editText.getText().toString());
     }
 }));
 ```
 
 #
 Preview For **Sample 1-4**:
-|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example1.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example2.jpg" width="400"/>|
-|---|---|
-|**Sample 1 & 2**|**Sample 3 & 4**|
+|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example1.jpg" width="400"/>|
+|---|
+|**Sample 1**|
 
 ---
 # Example Code/App
@@ -162,6 +119,8 @@ Preview For **Sample 1-4**:
   - Bug Fixing
 - **5.1.0**
   - Take Out CurrencyEditText & CurrencyEditTextFilledBox & CurrencyEditTextOutlinedBox
+- **5.2.0**
+  - More Simple
 
 ---
 # Contribution

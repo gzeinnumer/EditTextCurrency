@@ -15,10 +15,7 @@ public class CurrencyConverter implements TextWatcher {
     private static final int MAX_LENGTH = 100;
     private static final int MAX_DECIMAL = 3;
     private final EditText editText;
-//    private String previousCleanString;
-    //    private String prefix = "";
-//    private static String sSrefix = "";
-    StringCallBack stringCallBack;
+    private StringCallBack stringCallBack;
 
     private static String trimCommaOfString(String string) {
         if (string.contains(",")) {
