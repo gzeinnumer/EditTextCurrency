@@ -10,14 +10,14 @@ public class StringTools {
         }
     }
 
-    public static String trimCommaOfString(String string, String srefix) {
-        if (string.contains(",") || srefix.length() > 0) {
-            if (srefix.length() > 0)
-                return string.replace(",", "").replace(srefix, "");
-            else
-                return string.replace(",", "");
-        } else {
-            return string;
-        }
-    }
+//    public static String trimCommaOfString(String string, String srefix) {
+//        if (string.contains(",") || srefix.length() > 0) {
+//            if (srefix.length() > 0)
+//                return string.replace(",", "").replace(srefix, "");
+//            else
+//                return string.replace(",", "");
+//        } else {
+//            return string;
+//        }
+//    }
 }

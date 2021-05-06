@@ -29,32 +29,22 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
 
-        sample1();
-        sample2();
+//        sample1();
         sample3();
     }
 
     private void sample1() {
-        editText.addTextChangedListener(new CurrencyConverter(editText, "RP "));
+        editText.addTextChangedListener(new CurrencyConverter(editText));
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String str = editText.getText().toString();
-                Log.d(TAG, "onClick: " + StringTools.trimCommaOfString(str, "RP "));
+                Log.d(TAG, "onClick: " + StringTools.trimCommaOfString(str));
 
-                textView.setText(StringTools.trimCommaOfString(str, "RP "));
+                textView.setText(StringTools.trimCommaOfString(str));
             }
         });
-    }
-
-    private void sample2() {
-        editText.addTextChangedListener(new CurrencyConverter(editText, "RP ", new CurrencyConverter.StringCallBack() {
-            @Override
-            public void realString(String value) {
-                textView.setText("(Real Value) : " + value + " && (Preview) : " + editText.getText().toString());
-            }
-        }));
     }
 
     private void sample3() {
