@@ -7,7 +7,7 @@
 </h1>
 
 <p align="center">
-    <a><img src="https://img.shields.io/badge/Version-5.0.3-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-5.1.0-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -49,7 +49,6 @@ dependencies {
 ---
 # Feature List
 - [x] [CurrencyConverter Programatically](#currencyconverter-programatically).
-- [x] [CurrencyConverter In View (XML)](#currencyconverter-in-view-xml).
 
 ---
 # Tech stack and 3rd library
@@ -142,65 +141,6 @@ Preview For **Sample 1-4**:
 |---|---|
 |**Sample 1 & 2**|**Sample 3 & 4**|
 
-#
-### CurrencyConverter In View (XML).
-* **Sample 1** -> In `EditText`
-```xml
-<com.gzeinnumer.etc.utils.CurrencyEditText
-    android:id="@+id/ed"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:hint="Dalam Jumlah Rupiah"
-    app:prefix="RP " />
-```
-Custom your view
-```xml
-app:hint="Dalam Jumlah Rupiah" // for Hint of EditText
-app:maxLength="20" // for Max Character in EditText include Prefix and Comma
-app:prefix="RP " // for Prefix Example -> RP 1.000.000
-app:textSize="12sp" // for TextSize on input
-```
-Remove `Prefix` and symbol `,` and get `real value`
-```java
-CurrencyEditText ed1 = findViewById(R.id.ed);
-
-String str = StringTools.trimCommaOfString(ed1.getText(), "RP ");
-```
-
-#
-Preview :
-|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example4.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example9.jpg" width="400"/>|
-|---|---|
-
-#
-* **Sample 2** -> Use Material Design
-```xml
-<com.google.android.material.textfield.TextInputLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:hint="DaKlam Bentuk Rupiah">
-
-    <com.gzeinnumer.etc.utils.CurrencyEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        app:prefix="RP " />
-
-</com.google.android.material.textfield.TextInputLayout>
-```
-Remove `Prefix` and symbol `,` and get `real value`
-```java
-CurrencyEditText ed1 = findViewById(R.id.ed);
-
-String str = StringTools.trimCommaOfString(ed1.getText(), "RP ");
-```
-
-#
-Preview :
-|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example5.jpg" width="400"/>|<img src="https://github.com/gzeinnumer/EditTextCurrency/blob/master/preview/example10.jpg" width="400"/>|
-|---|---|
-
 ---
 # Example Code/App
 
@@ -220,6 +160,8 @@ Preview :
   - Bug Fixing
 - **5.0.3**
   - Bug Fixing
+- **5.1.0**
+  - Take Out CurrencyEditText & CurrencyEditTextFilledBox & CurrencyEditTextOutlinedBox
 
 ---
 # Contribution

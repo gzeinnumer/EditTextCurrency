@@ -15,17 +15,14 @@ public class CurrencyConverter implements TextWatcher {
     private static final int MAX_LENGTH = 100;
     private static final int MAX_DECIMAL = 3;
     private final EditText editText;
-    private String previousCleanString;
-    private String prefix = "";
-    private static String sSrefix = "";
+//    private String previousCleanString;
+    //    private String prefix = "";
+//    private static String sSrefix = "";
     StringCallBack stringCallBack;
 
     private static String trimCommaOfString(String string) {
-        if (string.contains(",") || CurrencyConverter.sSrefix.length() > 0) {
-            if (CurrencyConverter.sSrefix.length() > 0)
-                return string.replace(",", "").replace(CurrencyConverter.sSrefix, "");
-            else
-                return string.replace(",", "");
+        if (string.contains(",")) {
+            return string.replace(",", "");
         } else {
             return string;
         }
@@ -33,19 +30,6 @@ public class CurrencyConverter implements TextWatcher {
 
     public CurrencyConverter(EditText editText) {
         this.editText = editText;
-    }
-
-    public CurrencyConverter(EditText editText, String prefix) {
-        this.editText = editText;
-        this.prefix = prefix;
-        sSrefix = prefix;
-    }
-
-    public CurrencyConverter(EditText editText, String prefix, StringCallBack stringCallBack) {
-        this.editText = editText;
-        this.prefix = prefix;
-        sSrefix = prefix;
-        this.stringCallBack = stringCallBack;
     }
 
     public CurrencyConverter(EditText editText, StringCallBack stringCallBack) {
@@ -60,7 +44,13 @@ public class CurrencyConverter implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // do nothing
+        String text = editText.getText().toString();
+        if (text.startsWith(" ")) {
+            editText.setText(text.trim());
+        }
+        if (text.startsWith(".")) {
+            editText.setText("");
+        }
     }
 
     private static String getFormattedString(String text) {
@@ -98,47 +88,41 @@ public class CurrencyConverter implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {
         String str = editable.toString();
-        int count = countChar(str, '.');
+        if (str.length()>0){
 
-        // Add back the listener
-        if (count <= 1) {
-            if (str.length() < prefix.length()) {
-                editText.setText(prefix);
-                editText.setSelection(prefix.length());
-                return;
-            }
-            if (str.equals(prefix)) {
-                return;
-            }
-            // cleanString this the string which not contain prefix and ,
-            String cleanString = str.replace(prefix, "").replaceAll("[,]", "");
-            // for prevent afterTextChanged recursive call
-            if (cleanString.equals(previousCleanString) || cleanString.isEmpty()) {
-                return;
-            }
-            previousCleanString = cleanString;
+            int count = countChar(str, '.');
 
-            String formattedString;
-            if (cleanString.contains(".")) {
-                formattedString = formatDecimal(cleanString);
+            // Add back the listener
+            if (count <= 1) {
+                String cleanString = str.replaceAll("[,]", "");
+
+                String formattedString;
+                if (!cleanString.startsWith(".")) {
+
+                    if (cleanString.contains(".")) {
+                        formattedString = formatDecimal(cleanString);
+                    } else {
+                        formattedString = formatInteger(cleanString);
+                    }
+                } else {
+                    formattedString = formatInteger(cleanString);
+                }
+                editText.removeTextChangedListener(this); // Remove listener
+                editText.setText(formattedString);
+                handleSelection();
+                if (stringCallBack != null)
+                    stringCallBack.realString(trimCommaOfString(formattedString));
             } else {
-                formattedString = formatInteger(cleanString);
-            }
-            editText.removeTextChangedListener(this); // Remove listener
-            editText.setText(formattedString);
-            handleSelection();
-            if (stringCallBack != null)
-                stringCallBack.realString(trimCommaOfString(formattedString));
-        } else {
-            str = str.substring(0, str.lastIndexOf('.'));
+                str = str.substring(0, str.lastIndexOf('.'));
 
-            editText.removeTextChangedListener(this); // Remove listener
-            editText.setText(str);
-            handleSelection();
-            if (stringCallBack != null)
-                stringCallBack.realString(trimCommaOfString(str));
+                editText.removeTextChangedListener(this); // Remove listener
+                editText.setText(str);
+                handleSelection();
+                if (stringCallBack != null)
+                    stringCallBack.realString(trimCommaOfString(str));
+            }
+            editText.addTextChangedListener(this); // Add back the listener
         }
-        editText.addTextChangedListener(this); // Add back the listener
     }
 
     /**
@@ -163,22 +147,26 @@ public class CurrencyConverter implements TextWatcher {
     }
 
     private String formatInteger(String str) {
-        BigDecimal parsed = new BigDecimal(str);
-        DecimalFormat formatter =
-                new DecimalFormat(prefix + "#,###", new DecimalFormatSymbols(Locale.US));
-        return formatter.format(parsed);
+        if (!str.equals("")) {
+            BigDecimal parsed = new BigDecimal(str);
+            DecimalFormat formatter = new DecimalFormat("#,###", new DecimalFormatSymbols(Locale.US));
+            return formatter.format(parsed);
+        } else {
+            return str;
+        }
     }
 
     private String formatDecimal(String str) {
-        if (str.equals(".")) {
-            return prefix + ".";
+        if (!str.equals("")) {
+            BigDecimal parsed = new BigDecimal(str);
+            // example pattern VND #,###.00
+            DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
+                    new DecimalFormatSymbols(Locale.US));
+            formatter.setRoundingMode(RoundingMode.DOWN);
+            return formatter.format(parsed);
+        } else {
+            return str;
         }
-        BigDecimal parsed = new BigDecimal(str);
-        // example pattern VND #,###.00
-        DecimalFormat formatter = new DecimalFormat(prefix + "#,###." + getDecimalPattern(str),
-                new DecimalFormatSymbols(Locale.US));
-        formatter.setRoundingMode(RoundingMode.DOWN);
-        return formatter.format(parsed);
     }
 
     public int countChar(String str, char c) {
