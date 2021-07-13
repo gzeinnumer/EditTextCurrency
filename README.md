@@ -121,6 +121,8 @@ Preview For **Sample 1-4**:
   - Take Out CurrencyEditText & CurrencyEditTextFilledBox & CurrencyEditTextOutlinedBox
 - **5.2.0**
   - More Simple
+- **5.2.1**
+  - Bug Fixing
 
 ---
 # Contribution
