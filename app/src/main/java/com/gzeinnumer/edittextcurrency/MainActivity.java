@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         editText.addTextChangedListener(new CurrencyConverter(editText, new CurrencyConverter.StringCallBack() {
             @Override
             public void realString(String value) {
+                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
+                Log.d(getClass().getSimpleName(), "realString: "+value);
+
                 textView.setText("(Real Value) : " + value + " && (Preview) : " + editText.getText().toString());
             }
         }));
