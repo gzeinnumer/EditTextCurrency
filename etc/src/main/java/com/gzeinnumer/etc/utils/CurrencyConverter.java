@@ -118,11 +118,12 @@ public class CurrencyConverter implements TextWatcher {
                 if (stringCallBack != null)
                     stringCallBack.realString(trimCommaOfString(str));
             }
+            editText.addTextChangedListener(this); // Add back the listener
         } else {
             if (stringCallBack != null)
                 stringCallBack.realString(trimCommaOfString(str));
+            editText.addTextChangedListener(this); // Add back the listener
         }
-        editText.addTextChangedListener(this); // Add back the listener
     }
 
     /**
