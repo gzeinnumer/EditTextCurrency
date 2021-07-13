@@ -104,7 +104,7 @@ public class CurrencyConverter implements TextWatcher {
                 } else {
                     formattedString = formatInteger(cleanString);
                 }
-                editText.removeTextChangedListener(this); // Remove listener
+       re         editText.removeTextChangedListener(this); // Remove listener
                 editText.setText(formattedString);
                 handleSelection();
                 if (stringCallBack != null)
