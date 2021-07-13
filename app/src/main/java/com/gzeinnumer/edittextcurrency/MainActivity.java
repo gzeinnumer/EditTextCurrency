@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         editText.addTextChangedListener(new CurrencyConverter(editText, new CurrencyConverter.StringCallBack() {
             @Override
             public void realString(String value) {
-                Toast.makeText(MainActivity.this, value, Toast.LENGTH_SHORT).show();
-                Log.d(getClass().getSimpleName(), "realString: "+value);
+                Toast.makeText(MainActivity.this, value.length()+"_"+value, Toast.LENGTH_SHORT).show();
+                Log.d(getClass().getSimpleName(), "real_String: "+value);
 
                 textView.setText("(Real Value) : " + value + " && (Preview) : " + editText.getText().toString());
             }
