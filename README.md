@@ -7,7 +7,7 @@
 </h1>
 
 <p align="center">
-    <a><img src="https://img.shields.io/badge/Version-5.2.3-brightgreen.svg?style=flat"></a>
+    <a><img src="https://img.shields.io/badge/Version-5.2.4-brightgreen.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/ID-gzeinnumer-blue.svg?style=flat"></a>
     <a><img src="https://img.shields.io/badge/Java-Suport-green?logo=java&style=flat"></a>
     <a><img src="https://img.shields.io/badge/Kotlin-Suport-green?logo=kotlin&style=flat"></a>
@@ -122,6 +122,8 @@ Preview For **Sample 1-4**:
 - **5.2.0**
   - More Simple
 - **5.2.3**
+  - Bug Fixing
+- **5.2.4**
   - Bug Fixing
 
 ---

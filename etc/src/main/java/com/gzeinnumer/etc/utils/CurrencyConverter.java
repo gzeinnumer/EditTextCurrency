@@ -48,6 +48,9 @@ public class CurrencyConverter implements TextWatcher {
         if (text.startsWith(".")) {
             editText.setText("");
         }
+        if (text.startsWith("..")) {
+            editText.setText("");
+        }
     }
 
     private static String getFormattedString(String text) {
@@ -150,24 +153,33 @@ public class CurrencyConverter implements TextWatcher {
     }
 
     private String formatInteger(String str) {
-        if (!str.equals("")) {
-            BigDecimal parsed = new BigDecimal(str);
-            DecimalFormat formatter = new DecimalFormat("#,###", new DecimalFormatSymbols(Locale.US));
-            return formatter.format(parsed);
-        } else {
+        try {
+            if (!str.equals("")) {
+                BigDecimal parsed = new BigDecimal(str);
+                DecimalFormat formatter = new DecimalFormat("#,###", new DecimalFormatSymbols(Locale.US));
+                return formatter.format(parsed);
+            } else {
+                return str;
+            }
+        }catch (Exception e){
             return str;
         }
     }
 
     private String formatDecimal(String str) {
-        if (!str.equals("")) {
-            BigDecimal parsed = new BigDecimal(str);
-            // example pattern VND #,###.00
-            DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
-                    new DecimalFormatSymbols(Locale.US));
-            formatter.setRoundingMode(RoundingMode.DOWN);
-            return formatter.format(parsed);
-        } else {
+        try {
+
+            if (!str.equals("")) {
+                BigDecimal parsed = new BigDecimal(str);
+                // example pattern VND #,###.00
+                DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
+                        new DecimalFormatSymbols(Locale.US));
+                formatter.setRoundingMode(RoundingMode.DOWN);
+                return formatter.format(parsed);
+            } else {
+                return str;
+            }
+        } catch (Exception e){
             return str;
         }
     }
