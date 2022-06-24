@@ -3,6 +3,9 @@ package com.gzeinnumer.etc.utils;
 public class StringTools {
 
     public static String trimCommaOfString(String value) {
+        if (value.equals(".")){
+            return "";
+        }
         if (value.contains(",")) {
             return value.replace(",", "");
         } else {

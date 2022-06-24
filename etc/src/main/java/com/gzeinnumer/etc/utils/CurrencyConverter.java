@@ -18,6 +18,9 @@ public class CurrencyConverter implements TextWatcher {
     private StringCallBack stringCallBack;
 
     private static String trimCommaOfString(String string) {
+        if (string.equals(".")){
+            return "";
+        }
         if (string.contains(",")) {
             return string.replace(",", "");
         } else {
@@ -42,13 +45,16 @@ public class CurrencyConverter implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         String text = editText.getText().toString();
+        if(text.length() == 1 && text.charAt(0) == '.'){
+            editText.setText("");
+        }
         if (text.startsWith(" ")) {
             editText.setText(text.trim());
         }
-        if (text.startsWith(".")) {
+        if (text.startsWith("..")) {
             editText.setText("");
         }
-        if (text.startsWith("..")) {
+        if (text.startsWith(".")) {
             editText.setText("");
         }
     }
@@ -87,6 +93,10 @@ public class CurrencyConverter implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable editable) {
+        if(editable.length() == 1 && editable.charAt(0) == '.'){
+            editText.setText("");
+            return;
+        }
         String str = editable.toString();
         if (str.length()>0){
 
