@@ -41,10 +41,9 @@ public class CurrencyConverter implements TextWatcher {
                 if(value.startsWith(".")){
                     editText.setText("0.");
                 }
-//                if(value.startsWith("0") && !value.startsWith("0.")){
-//                    editText.setText("");
-//
-//                }
+                if(value.startsWith("00") && !value.startsWith("0.")){
+                    editText.setText("0");
+                }
 
                 String str = editText.getText().toString().replaceAll(",", "");
                 if (!value.equals(""))
