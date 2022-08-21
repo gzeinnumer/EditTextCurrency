@@ -4,29 +4,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class CurrencyConverter implements TextWatcher {
-    private static final int MAX_LENGTH = 100;
-    private static final int MAX_DECIMAL = 3;
+
     private final EditText editText;
     private StringCallBack stringCallBack;
-
-    private static String trimCommaOfString(String string) {
-        if (string.equals(".")){
-            return "";
-        }
-        if (string.contains(",")) {
-            return string.replace(",", "");
-        } else {
-            return string;
-        }
-    }
 
     public CurrencyConverter(EditText editText) {
         this.editText = editText;
@@ -39,170 +22,91 @@ public class CurrencyConverter implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // do nothing
+
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        String text = editText.getText().toString();
-        if(text.length() == 1 && text.charAt(0) == '.'){
-            editText.setText("");
-        }
-        if (text.startsWith(" ")) {
-            editText.setText(text.trim());
-        }
-        if (text.startsWith("..")) {
-            editText.setText("");
-        }
-        if (text.startsWith(".")) {
-            editText.setText("");
-        }
-    }
 
-    private static String getFormattedString(String text) {
-        String res = "";
-        try {
-            String temp = text.replace(",", "");
-            long part1;
-            String part2 = "";
-            int dotIndex = temp.indexOf(".");
-            if (dotIndex >= 0) {
-                part1 = Long.parseLong(temp.substring(0, dotIndex));
-                if (dotIndex + 1 <= temp.length()) {
-                    part2 = temp.substring(dotIndex + 1).trim().replace(".", "").replace(",", "");
-                }
-            } else
-                part1 = Long.parseLong(temp);
-
-            res = getStringWithSeparator(part1);
-            if (part2.length() > 0)
-                res += "." + part2;
-            else if (dotIndex >= 0)
-                res += ".";
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return res;
-    }
-
-    public static String getStringWithSeparator(long value) {
-        DecimalFormat formatter = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
-        String f = formatter.format(value);
-        return f;
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
-        if(editable.length() == 1 && editable.charAt(0) == '.'){
-            editText.setText("");
-            return;
-        }
-        String str = editable.toString();
-        if (str.length()>0){
+    public void afterTextChanged(Editable s) {
+        try {
+            editText.removeTextChangedListener(this);
+            String value = editText.getText().toString();
 
-            int count = countChar(str, '.');
-
-            // Add back the listener
-            if (count <= 1) {
-                String cleanString = str.replaceAll("[,]", "");
-
-                String formattedString;
-                if (!cleanString.startsWith(".")) {
-
-                    if (cleanString.contains(".")) {
-                        formattedString = formatDecimal(cleanString);
-                    } else {
-                        formattedString = formatInteger(cleanString);
-                    }
-                } else {
-                    formattedString = formatInteger(cleanString);
+            if (value != null && !value.equals(""))
+            {
+                if(value.startsWith(".")){
+                    editText.setText("0.");
                 }
-                editText.removeTextChangedListener(this); // Remove listener
-                editText.setText(formattedString);
-                handleSelection();
+//                if(value.startsWith("0") && !value.startsWith("0.")){
+//                    editText.setText("");
+//
+//                }
+
+                String str = editText.getText().toString().replaceAll(",", "");
+                if (!value.equals(""))
+                    editText.setText(getDecimalFormattedString(str));
+                editText.setSelection(editText.getText().toString().length());
                 if (stringCallBack != null)
-                    stringCallBack.realString(trimCommaOfString(formattedString));
-            } else {
-                str = str.substring(0, str.lastIndexOf('.'));
-
-                editText.removeTextChangedListener(this); // Remove listener
-                editText.setText(str);
-                handleSelection();
-                if (stringCallBack != null)
-                    stringCallBack.realString(trimCommaOfString(str));
+                    stringCallBack.realString(trimCommaOfString(editText.getText().toString()));
             }
-        } else {
-            editText.removeTextChangedListener(this); // Remove listener
-            editText.setText(str);
-            handleSelection();
-            if (stringCallBack != null)
-                stringCallBack.realString(trimCommaOfString(str));
+            editText.addTextChangedListener(this);
+            return;
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+            editText.addTextChangedListener(this);
         }
-        editText.addTextChangedListener(this); // Add back the listener
+
     }
 
-    /**
-     * It will return suitable pattern for format decimal
-     * For example: 10.2 -> return 0 | 10.23 -> return 00, | 10.235 -> return 000
-     */
-    private String getDecimalPattern(String str) {
-        int decimalCount = str.length() - str.indexOf(".") - 1;
-        StringBuilder decimalPattern = new StringBuilder();
-        for (int i = 0; i < decimalCount && i < MAX_DECIMAL; i++) {
-            decimalPattern.append("0");
+    public static String getDecimalFormattedString(String value)
+    {
+        StringTokenizer lst = new StringTokenizer(value, ".");
+        String str1 = value;
+        String str2 = "";
+        if (lst.countTokens() > 1)
+        {
+            str1 = lst.nextToken();
+            str2 = lst.nextToken();
         }
-        return decimalPattern.toString();
-    }
-
-    private void handleSelection() {
-        if (editText.getText().length() <= MAX_LENGTH) {
-            editText.setSelection(editText.getText().length());
-        } else {
-            editText.setSelection(MAX_LENGTH);
+        String str3 = "";
+        int i = 0;
+        int j = -1 + str1.length();
+        if (str1.charAt( -1 + str1.length()) == '.')
+        {
+            j--;
+            str3 = ".";
         }
-    }
-
-    private String formatInteger(String str) {
-        try {
-            if (!str.equals("")) {
-                BigDecimal parsed = new BigDecimal(str);
-                DecimalFormat formatter = new DecimalFormat("#,###", new DecimalFormatSymbols(Locale.US));
-                return formatter.format(parsed);
-            } else {
-                return str;
+        for (int k = j;; k--)
+        {
+            if (k < 0)
+            {
+                if (str2.length() > 0)
+                    str3 = str3 + "." + str2;
+                return str3;
             }
-        }catch (Exception e){
-            return str;
-        }
-    }
-
-    private String formatDecimal(String str) {
-        try {
-
-            if (!str.equals("")) {
-                BigDecimal parsed = new BigDecimal(str);
-                // example pattern VND #,###.00
-                DecimalFormat formatter = new DecimalFormat("#,###." + getDecimalPattern(str),
-                        new DecimalFormatSymbols(Locale.US));
-                formatter.setRoundingMode(RoundingMode.DOWN);
-                return formatter.format(parsed);
-            } else {
-                return str;
+            if (i == 3)
+            {
+                str3 = "," + str3;
+                i = 0;
             }
-        } catch (Exception e){
-            return str;
+            str3 = str1.charAt(k) + str3;
+            i++;
         }
+
     }
 
-    public int countChar(String str, char c) {
-        int count = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == c)
-                count++;
+    public static String trimCommaOfString(String string) {
+//        String returnString;
+        if(string.contains(",")){
+            return string.replace(",","");}
+        else {
+            return string;
         }
-
-        return count;
     }
 
     public interface StringCallBack {

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
 
 //        sample1();
-        sample3();
+        sample2();
     }
 
     private void sample1() {
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sample3() {
+    private void sample2() {
         editText.addTextChangedListener(new CurrencyConverter(editText, new CurrencyConverter.StringCallBack() {
             @Override
             public void realString(String value) {
